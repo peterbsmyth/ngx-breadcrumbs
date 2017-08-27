@@ -9,7 +9,14 @@ import { HomeComponent } from '../components/home.component';
 import { PersonModule } from "../person/person.module";
 import { browseRoutes } from "../browse/browse.routes";
 
-export function personChildren() { return PersonModule; }
+// https://github.com/angular/angular-cli/issues/4192#issuecomment-274775116
+
+export function touch() {
+  return PersonModule;
+}
+
+touch();
+
 
 const routes : Routes = [
   {
@@ -35,7 +42,7 @@ const routes : Routes = [
   },
   {
     path: 'person',
-    loadChildren: personChildren,
+    loadChildren: './person/person.module#PersonModule',
     data: {
       text: 'Persons',
       nav: true,
