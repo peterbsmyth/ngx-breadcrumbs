@@ -21,10 +21,15 @@ import 'rxjs/add/observable/fromPromise';
 //   _templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 // }
 
-import * as _template from 'lodash.template';
-import * as _templateSettings from 'lodash.templatesettings';
+import * as template from 'lodash.template';
+import * as templateSettings from 'lodash.templatesettings';
 
-_templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+const _ = {
+  template: template,
+  templateSettings: templateSettings
+};
+
+_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
 export interface IBreadcrumb {
   text: string,
@@ -38,8 +43,7 @@ function r(module) {
 }
 
 export function stringFormat(template: string, binding: any): string {
-
-  let compiled = _template(template);
+  let compiled = _.template(template);
   return compiled(binding);
 }
 
