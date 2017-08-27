@@ -1,28 +1,119 @@
-# NgxBreadcrumbs
+# Ngx-Breadcrumbs
+An Angular (4+) module generating breadcrumbs based on the routing state.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
+## Installation
+```bash
+# install via npm
+$ npm --save install ngx-breadcrumbs
+```
+```bash
+# install via yarn
+$ yarn add ngx-breadcrumbs
+```
 
-## Development server
+## Usage
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Import the `McBreadcrumbsModule` in your root module (`app.module.ts`) after importing the _router_ module. 
 
-## Code scaffolding
+```javascript
+import { RouterModule } from '@angular/router';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+@NgModule({
+	imports: [
+    	RouterModule.forRoot(myRoutes),
+    	McBreadcrumbsModule.forRoot()
+  	],  
+})
+export class AppModule {}
+```
 
-## Build
+Place the `mc-breadcrumbs` component, which will render the breadcrumbs, somewhere in your markup.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+```javascript
+@Component({
+  selector: 'app-root',
+  template: `<div class="container">
+       			<mc-breadcrumbs></mc-breadcrumbs>
+       			<router-outlet></router-outlet>
+     		</div>`
+})
+export class AppComponent {}
+```
 
-## Running unit tests
+Usage of the `mc-breadcrumbs` render component is optional. If a different markup output is desired, a custom component can be created that subscribes to the `McBreadcrumbsService.crumbs$` observable.  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Routing Configuration
 
-## Running end-to-end tests
+Breadcrumbs links are generated based on the route configuration. If a route entry contains a `data.breadcrumbs` property the _breadcrumbs service_ assumes breadcrumbs should be created whenever this route or one its child routes are active. 
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+```javascript
+const myRoutes : Route[] = {
+  {
+    path: '',
+    component: HomeComponent,
+    data: {
+      // Uses static text (Home)
+      breadcrumbs: 'Home' 
+    }
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: {
+      // Uses last urlfragment (about) as text
+      breadcrumbs: true 
+    }
+  },
+  {
+    path: 'person',
+    data: {
+      // Uses text property (Person)
+      breadcrumbs: true,
+      text: 'Person'
+    },
+    children: [
+    	{
+          path: '',
+          component: PersonListComponent
+    	},
+    	{
+          path: ':id',
+          component: PersonDetailComponent,
+          data: {
+            // Interpolates values resolved by the router 
+	        breadcrumbs: '{{ person.name }}'
+          },
+          resolve: {
+          	person: PersonResolver
+          }
+    	} 
+    ]
+  },    
+  {
+    path: 'folder',
+    data: {
+      // Uses static text 'Folder'
+      breadcrumbs: 'Folder'
+    },
+    children: [
+      {
+    	path: '',
+    	component: FolderComponent
+  	  },
+  	  {
+        path: ':id',
+        component: FolderComponent,
+        data: {
+          // Resolves the breadcrumbs for this route by
+          // implementing a McBreadcrumbsResolver class.
+          breadcrumbs: FolderBreadcrumbsResolver
+        }
+      }
+    ]
+  }
+};
+```
 
-## Further help
+ 
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
