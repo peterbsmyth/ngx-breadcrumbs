@@ -1,7 +1,23 @@
 {
   "name": "ngx-breadcrumbs",
-  "version": "0.0.0",
   "license": "MIT",
+  "version": "0.0.1",
+  "description": "Angular 4+ routing breadcrumbs",
+  "author": {
+    "name": "(null) McNull",
+    "email": "noreplies@hotmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/McNull/ngx-breadcrumbs"
+  },
+  "keywords": [
+    "angular",
+    "angular4",
+    "breadcrumbs",
+    "routing"
+  ],
+  "homepage": "https://github.com/McNull/ngx-breadcrumbs",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
