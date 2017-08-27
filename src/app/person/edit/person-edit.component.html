@@ -1,0 +1,9 @@
+<h1>Person</h1>
+
+<form #personForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Name</label>
+    <input class="form-control" [(ngModel)]="person.name" name="name" required>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!personForm.form.valid">Submit</button>
+</form>

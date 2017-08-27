@@ -1,0 +1,17 @@
+<h1>
+  Person</h1>
+
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+  </tr>
+  <tr *ngFor="let person of persons | async">
+    <td>{{ person.id }}</td>
+    <td>
+      <a [routerLink]="[ person.id, 'edit']">
+        {{ person.name }}
+      </a>
+    </td>
+  </tr>
+</table>

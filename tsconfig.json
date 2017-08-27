@@ -8,9 +8,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "baseUrl": ".",
     "typeRoots": [
       "node_modules/@types"
     ],
+    "paths": {
+      "ngx-breadcrumbs": ["./src/lib/mc-breadcrumbs"]
+    },
     "lib": [
       "es2017",
       "dom"
