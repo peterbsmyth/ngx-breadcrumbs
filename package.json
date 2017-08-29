@@ -42,8 +42,6 @@
     "@angular/router": "^4.3.6",
     "bootstrap": "4.0.0-beta",
     "core-js": "^2.4.1",
-    "lodash.template": "^4.4.0",
-    "lodash.templatesettings": "^4.1.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
