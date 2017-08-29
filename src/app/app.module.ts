@@ -32,11 +32,23 @@ import { routes } from './shared/app.routes';
 })
 export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
-    breadcrumbsConfig.prefixCrumbs = [
-      {
-        text: 'Home',
-        path: '/'
+
+    breadcrumbsConfig.postProcess = (x) => {
+
+      // Ensure the first breadcrumb points to home
+
+      let y = x;
+
+      if(x.length && x[0].text !== 'Home') {
+        y = [
+          {
+            text: 'Home',
+            path: ''
+          }
+        ].concat(x);
       }
-    ];
+
+      return y;
+    };
   }
 }

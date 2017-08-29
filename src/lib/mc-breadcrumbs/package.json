@@ -1,6 +1,6 @@
 {
   "name": "ngx-breadcrumbs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Angular 4+ routing breadcrumbs",
   "author": {
     "name": "(null) McNull",

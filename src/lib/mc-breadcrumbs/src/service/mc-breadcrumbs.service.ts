@@ -32,11 +32,19 @@ export class McBreadcrumbsService {
 
         const route = _router.routerState.snapshot.root;
 
-        Observable.of(this._config.prefixCrumbs)
-          .concat(this._resolveCrumbs(route))
+        //Observable.of(this._config.prefixCrumbs)
+        this._resolveCrumbs(route)
           .flatMap((x) => x)
           .distinct((x) => x.text)
           .toArray()
+          .flatMap((x) => {
+            if(this._config.postProcess) {
+              const y = this._config.postProcess(x);
+              return wrapIntoObservable<IBreadcrumb[]>(y).first();
+            } else {
+              return Observable.of(x);
+            }
+          })
           .subscribe((x) => {
             this._breadcrumbs.next(x);
           });

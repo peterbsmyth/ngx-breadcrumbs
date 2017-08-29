@@ -1,16 +1,13 @@
+import { Observable } from 'rxjs/Observable';
+
 import { Injectable } from '@angular/core';
 import { IBreadcrumb } from "../mc-breadcrumbs.shared";
 
+interface IPostProcessFunc {
+  (crumbs: IBreadcrumb[]) : Promise<IBreadcrumb[]> | Observable<IBreadcrumb[]> | IBreadcrumb[];
+}
+
 @Injectable()
 export class McBreadcrumbsConfig {
-
-  private _prefixCrumbs : IBreadcrumb[] = [];
-
-  set prefixCrumbs(value: IBreadcrumb[]) {
-    this._prefixCrumbs = [].concat(value);
-  }
-
-  get prefixCrumbs() : IBreadcrumb[] {
-    return this._prefixCrumbs;
-  }
+  postProcess : IPostProcessFunc
 }
