@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { IBreadcrumb } from "../mc-breadcrumbs.shared";
 
-interface IPostProcessFunc {
+export interface IPostProcessFunc {
   (crumbs: IBreadcrumb[]) : Promise<IBreadcrumb[]> | Observable<IBreadcrumb[]> | IBreadcrumb[];
 }
 

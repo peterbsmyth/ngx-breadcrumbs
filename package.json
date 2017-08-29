@@ -1,7 +1,7 @@
 {
   "name": "ngx-breadcrumbs",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Angular 4+ routing breadcrumbs",
   "author": {
     "name": "(null) McNull",
