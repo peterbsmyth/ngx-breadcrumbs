@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, UrlSegment } from '@angular/router';
-import { IBreadcrumb, stringFormat } from "../mc-breadcrumbs.shared";
-import { Observable } from "rxjs/Observable";
+import { IBreadcrumb, stringFormat } from '../mc-breadcrumbs.shared';
+import { Observable, of } from 'rxjs';
 
 
 export class McBreadcrumbsResolver implements Resolve<IBreadcrumb[]> {
@@ -14,18 +14,18 @@ export class McBreadcrumbsResolver implements Resolve<IBreadcrumb[]> {
     let text = typeof (data.breadcrumbs) === 'string' ? data.breadcrumbs : data.breadcrumbs.text || data.text || path;
     text = stringFormat(text, route.data);
 
-    const crumbs : IBreadcrumb[] = [{
+    const crumbs: IBreadcrumb[] = [{
       text: text,
       path: path
     }];
 
-    return Observable.of(crumbs);
+    return of(crumbs);
   }
 
-  public getFullPath(route: ActivatedRouteSnapshot) : string {
+  public getFullPath(route: ActivatedRouteSnapshot): string {
     const relativePath = (segments: UrlSegment[]) => segments.reduce((a, v) => a += '/' + v.path, '');
     const fullPath = (routes: ActivatedRouteSnapshot[]) => routes.reduce((a, v) => a += relativePath(v.url), '');
 
-    return fullPath(route.pathFromRoot)
+    return fullPath(route.pathFromRoot);
   }
 }

@@ -2,21 +2,12 @@ import { Injectable, Injector } from '@angular/core';
 
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterState } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from "rxjs/Subscription";
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/toArray';
-import 'rxjs/add/operator/distinct';
-import 'rxjs/add/operator/first';
+import { Observable, BehaviorSubject, Subscription, of } from 'rxjs';
 
 import { IBreadcrumb, stringFormat, wrapIntoObservable } from '../mc-breadcrumbs.shared';
-import { McBreadcrumbsConfig } from "./mc-breadcrumbs.config";
+import { McBreadcrumbsConfig } from './mc-breadcrumbs.config';
 import { McBreadcrumbsResolver } from './mc-breadcrumbs.resolver';
+import { filter, flatMap, distinct, toArray, first, concat } from 'rxjs/operators';
 
 @Injectable()
 export class McBreadcrumbsService {
@@ -27,24 +18,24 @@ export class McBreadcrumbsService {
   constructor(private _router: Router, route: ActivatedRoute, private _config: McBreadcrumbsConfig, private _injector: Injector) {
 
     this._router.events
-      .filter((x) => x instanceof NavigationEnd)
+      .pipe(filter((x) => x instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
 
-        const route = _router.routerState.snapshot.root;
+        const currentRoot = _router.routerState.snapshot.root;
 
-        //Observable.of(this._config.prefixCrumbs)
-        this._resolveCrumbs(route)
-          .flatMap((x) => x)
-          .distinct((x) => x.text)
-          .toArray()
-          .flatMap((x) => {
-            if(this._config.postProcess) {
+        // Observable.of(this._config.prefixCrumbs)
+        this._resolveCrumbs(currentRoot).pipe(
+          flatMap((x) => x),
+          distinct((x) => x.text),
+          toArray(),
+          flatMap((x) => {
+            if (this._config.postProcess) {
               const y = this._config.postProcess(x);
-              return wrapIntoObservable<IBreadcrumb[]>(y).first();
+              return wrapIntoObservable<IBreadcrumb[]>(y).pipe(first());
             } else {
-              return Observable.of(x);
+              return of(x);
             }
-          })
+          }))
           .subscribe((x) => {
             this._breadcrumbs.next(x);
           });
@@ -65,23 +56,23 @@ export class McBreadcrumbsService {
 
     if (data && data.breadcrumbs) {
 
-      let resolver : McBreadcrumbsResolver;
+      let resolver: McBreadcrumbsResolver;
 
-      if(data.breadcrumbs.prototype instanceof McBreadcrumbsResolver) {
+      if (data.breadcrumbs.prototype instanceof McBreadcrumbsResolver) {
         resolver = this._injector.get(data.breadcrumbs);
       } else {
         resolver = this._defaultResolver;
       }
 
-      let result = resolver.resolve(route, this._router.routerState.snapshot);
-      crumbs$ = wrapIntoObservable<IBreadcrumb[]>(result).first();
+      const result = resolver.resolve(route, this._router.routerState.snapshot);
+      crumbs$ = wrapIntoObservable<IBreadcrumb[]>(result).pipe(first());
 
     } else {
-      crumbs$ = Observable.of([]);
+      crumbs$ = of([]);
     }
 
     if (route.firstChild) {
-      crumbs$ = crumbs$.concat(this._resolveCrumbs(route.firstChild));
+      crumbs$ = crumbs$.pipe(concat(this._resolveCrumbs(route.firstChild)));
     }
 
     return crumbs$;
