@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs/Observable';
 import { McBreadcrumbsService } from '../service/mc-breadcrumbs.service';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IBreadcrumb } from "../mc-breadcrumbs.shared";
-import { Subscription } from "rxjs/Subscription";
+import { IBreadcrumb } from '../mc-breadcrumbs.shared';
+import { Subscription } from 'rxjs';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'mc-breadcrumbs',
   templateUrl: './mc-breadcrumbs.component.html'
 })
@@ -17,14 +17,12 @@ export class McBreadcrumbsComponent implements OnInit, OnDestroy {
   subscriptions = new Array<Subscription>();
 
   public ngOnInit(): void {
-
-    const s = this.service.crumbs$.subscribe((x) => {
+    const s = this.service.crumbs$.subscribe(x => {
       this.crumbs = x;
     });
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((x) => x.unsubscribe());
+    this.subscriptions.forEach(x => x.unsubscribe());
   }
-
 }
