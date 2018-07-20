@@ -3,8 +3,8 @@ import { PersonService } from '../person.service';
 import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 
-import 'rxjs/add/operator/first';
-import { Observable } from "rxjs/Observable";
+
+import { Observable } from "rxjs";
 
 @Component({
   templateUrl: './person-edit.component.html',

@@ -1,7 +1,7 @@
 {
   "name": "ngx-breadcrumbs",
-  "version": "0.0.3",
-  "description": "Angular 4+ routing breadcrumbs",
+  "version": "0.0.4",
+  "description": "Angular 6+ routing breadcrumbs",
   "author": {
     "name": "(null) McNull",
     "email": "noreplies@hotmail.com"
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "angular",
-    "angular4",
+    "angular6",
     "breadcrumbs",
     "routing"
   ],
@@ -22,7 +22,7 @@
     "lodash.template": "^4.4.0"
   },
   "peerDependencies": {
-    "@angular/core": ">=4.0.0 <5.0.0 || >=4.0.0-beta <5.0.0",
-    "@angular/router": ">=4.0.0 <5.0.0"
+    "@angular/core": "*",
+    "@angular/router": "*"
   }
 }

@@ -1,16 +1,13 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { IPerson } from './person.model';
 import { Injectable } from '@angular/core';
-import { utils } from "../shared/utils";
-
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/toPromise';
+import { utils } from '../shared/utils';
+import { map, first } from 'rxjs/operators';
 
 @Injectable()
 export class PersonService {
-  constructor() { }
+  constructor() {}
 
   private persons = new BehaviorSubject<IPerson[]>(persons);
 
@@ -20,21 +17,22 @@ export class PersonService {
 
   get(id: string): Promise<IPerson> {
     return this.persons
-      .map(x => x.find(y => y.id === id))
-      .first()
+      .pipe(
+        map(x => x.find(y => y.id === id)),
+        first()
+      )
       .toPromise();
   }
 
-  save(person: IPerson) : Promise<IPerson> {
-
-    return new Promise((resolve) => {
-      let persons = [... this.persons.getValue()];
+  save(person: IPerson): Promise<IPerson> {
+    return new Promise(resolve => {
+      let persons = [...this.persons.getValue()];
 
       if (!person.id) {
         person.id = utils.guid();
         persons.push(person);
       } else {
-        let idx = persons.findIndex((x) => x.id === person.id);
+        let idx = persons.findIndex(x => x.id === person.id);
         persons.splice(idx, 1, person);
       }
 
