@@ -1,15 +1,10 @@
-import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { Component, Injectable, OnDestroy } from '@angular/core';
 import { utils } from '../shared/utils';
 import { BrowseService, IFolder } from './browse.service';
 
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import { BrowseBreadcrumbsResolver } from "./browse-breadcrumbs.resolver";
+import { BrowseBreadcrumbsResolver } from './browse-breadcrumbs.resolver';
 
 ////////////////////////////////////////////////////////////////////
 

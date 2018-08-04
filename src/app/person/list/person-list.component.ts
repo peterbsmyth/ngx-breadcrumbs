@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PersonService } from '../person.service';
 import { Component, OnInit } from '@angular/core';
-import { IPerson } from "../person.model";
+import { IPerson } from '../person.model';
 
 @Component({
   templateUrl: './person-list.component.html'
