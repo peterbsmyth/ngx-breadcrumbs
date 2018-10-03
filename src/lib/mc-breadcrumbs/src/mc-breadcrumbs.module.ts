@@ -20,4 +20,5 @@ export class McBreadcrumbsModule {
       ]
     };
   }
+  constructor(private breadcrumbsService: McBreadcrumbsService) {}
 }
