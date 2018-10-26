@@ -1,6 +1,9 @@
 # Ngx-Breadcrumbs
 An Angular (4+) module generating breadcrumbs based on the routing state.
 
+**THIS PROJECT IS NOT MAINTAINED ANYMORE**
+
+
 ## Installation
 ```bash
 # install via npm
